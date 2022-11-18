@@ -1,5 +1,5 @@
 # CP373-Project
 Authors:
-Gurparkash-Singh-Randhawa
+Gurparkash-Singh
 Andy-Vuong
 Aaron-Sun
