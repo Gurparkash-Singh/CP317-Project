@@ -35,6 +35,26 @@ class Student
         this.courses = new HashMap<String, float[]>();
     }
 
+    public Student(Student original)
+    {
+        this.name = new String(original.name);
+        this.id = original.id;
+        this.courses = new HashMap<String, float[]>();
+        original.courses.forEach((String key, float[] values) -> {
+            float[] toAdd = new float[5];
+            for (int i = 0; i < 5; i++)
+            {
+                toAdd[i] = values[i];
+            }
+            this.courses.put(new String(key), toAdd);
+        });
+    }
+
+    public Student()
+    {
+        this.courses = new HashMap<String, float[]>();
+    }
+
     public String getName()
     {
         return this.name;
@@ -45,12 +65,12 @@ class Student
         // Error handle and add name
     }
 
-    public long getid()
+    public long getId()
     {
         return this.id;
     }
 
-    public void setid(long id)
+    public void setId(long id)
     {
         // Error handle and set id
     }
