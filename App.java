@@ -11,6 +11,7 @@ public class App {
     // Finish readNameFile
     // Figure out if name and id are printed without course
     // Finish main method
+    // Discuss why we need private methods and a constructor
 
     private HashMap<Long, Student> students;
 
