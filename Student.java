@@ -62,7 +62,8 @@ class Student
 
     public void setName(String name)
     {
-        // Error handle and add name
+        // Add error handlers
+        this.name = name;
     }
 
     public long getId()
@@ -72,7 +73,8 @@ class Student
 
     public void setId(long id)
     {
-        // Error handle and set id
+        // Add error handlers
+        this.id = id;
     }
 
     public void addCourse(String courseCode, float[] marks)
