@@ -42,7 +42,7 @@ class Student
         this.courses = new HashMap<String, float[]>();
         original.courses.forEach((String key, float[] values) -> {
             float[] toAdd = new float[5];
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < toAdd.length; i++)
             {
                 toAdd[i] = values[i];
             }
@@ -93,7 +93,7 @@ class Student
             // Throw exception
         }
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < marks.length; i++)
         {
             float mark = marks[i];
 
