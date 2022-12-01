@@ -1,4 +1,4 @@
-# CP373-Project
+# CP317-Project
 Authors:
 Gurparkash-Singh
 Andy-Vuong
