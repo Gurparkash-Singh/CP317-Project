@@ -10,6 +10,7 @@ public class App {
     // Finish readCourseFile
     // Finish readNameFile
     // Figure out if name and id are printed without course - NO
+    // Throw an error instead
     // Finish main method
     // Discuss why we need private methods and a constructor
 

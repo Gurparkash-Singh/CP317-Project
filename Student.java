@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 
-class Student
+class Student implements Comparable<Student>
 {
     // Finish Constructors
     // Finish set name 
@@ -15,21 +15,18 @@ class Student
 
     public Student(String name, long id)
     {
-        // Error handle name and id
-        this.name = name;
-        this.id = id;
+        this.setName(name);
+        this.setId(id);
     }
 
     public Student(String name)
     {
-        // Error handle name
-        this.name = name;
+        this.setName(name);
     }
 
     public Student(long id)
     {
-        // Error handle id
-        this.id = id;
+        this.setId(id);
     }
 
     public Student(Student original)
@@ -53,7 +50,10 @@ class Student
 
     public void setName(String name)
     {
-        // Add error handlers
+        if (name.length() > 20)
+        {
+            // Throw Exception
+        }
         this.name = name;
     }
 
@@ -64,7 +64,10 @@ class Student
 
     public void setId(long id)
     {
-        // Add error handlers
+        if (id >= 1000000000)
+        {
+            // Throw Exception
+        }
         this.id = id;
     }
 
@@ -137,9 +140,9 @@ class Student
         return results;
     }
 
-    public long compareTo(Student other)
+    public int compareTo(Student other)
     {
 
-        return this.id - other.id;
+        return Long.compare(this.id, other.id);
     }
 }
