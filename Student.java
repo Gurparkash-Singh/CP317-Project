@@ -84,6 +84,16 @@ class Student implements Comparable<Student>
         // Add exception in the if statement below
         // Add exception in the else statement in the loop below
 
+        if (!courseCode.matches("^[A-Za-z]{2}[0-9]{3}$"))
+        {
+            // Throw Exception
+        }
+
+        if (this.courses.containsKey(courseCode))
+        {
+            // Throw Exception
+        }
+
         float total = 0;
 
         if (marks.length != 4)
