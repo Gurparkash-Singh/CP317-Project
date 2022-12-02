@@ -68,10 +68,16 @@ class Student
         this.id = id;
     }
 
+    public boolean courseExists(String courseCode)
+    {
+        return this.courses.containsKey(courseCode);
+    }
+
     public void addCourse(String courseCode, float[] marks)
     {
 
         // Throw Exception if course code is not right
+        // Throw Exception if course code already exists for this student
         // Add exception in the if statement below
         // Add exception in the else statement in the loop below
 
@@ -86,7 +92,7 @@ class Student
         {
             float mark = marks[i];
 
-            if (0 <= mark && mark <= 100)
+            if (0 <= mark && mark < 100)
             {
                 if (i < 3)
                 {

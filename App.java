@@ -9,7 +9,7 @@ public class App {
 
     // Finish readCourseFile
     // Finish readNameFile
-    // Figure out if name and id are printed without course
+    // Figure out if name and id are printed without course - NO
     // Finish main method
     // Discuss why we need private methods and a constructor
 
@@ -43,7 +43,7 @@ public class App {
         while (courseFile.hasNextLine())
         {
             line = courseFile.nextLine();
-            courses = line.split(", ");
+            courses = line.split(",");
             if (courses.length != 6)
             {
                 // Throw Exception
@@ -53,8 +53,16 @@ public class App {
             {
                 marks[i] = Float.parseFloat(courses[i + 2].trim());
             }
-            student = new Student(id);
-            student.addCourse(courses[1].trim(), marks);
+            if (this.students.containsKey(id))
+            {
+                student = this.students.get(id);
+                student.addCourse(courses[1].trim(), marks);
+            }
+            else
+            {
+                student = new Student(id);
+                student.addCourse(courses[1].trim(), marks);
+            }
             this.students.put(id, student);
         }
     }
@@ -64,6 +72,7 @@ public class App {
         // Exception in if statement in while loop
         // Try Catch id conversion
         // Throw Exception if name already associated with id
+        // Add check to see if name already exists
 
         String line;
         String[] names;
