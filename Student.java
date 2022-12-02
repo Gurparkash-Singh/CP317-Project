@@ -133,17 +133,7 @@ class Student
 
     public long compareTo(Student other)
     {
-        long result = 0;
 
-        if (this.id == other.id)
-        {
-            result = this.name.compareTo(other.name);
-        }
-        else
-        {
-            result = this.id - other.id;
-        }
-
-        return result;
+        return this.id - other.id;
     }
 }
