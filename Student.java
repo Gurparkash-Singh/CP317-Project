@@ -11,48 +11,34 @@ class Student
 
     private String name;
     private long id;
-    private HashMap<String, float[]> courses;
+    private HashMap<String, Float> courses = new HashMap<String, Float>();
 
     public Student(String name, long id)
     {
         // Error handle name and id
         this.name = name;
         this.id = id;
-        this.courses = new HashMap<String, float[]>();
     }
 
     public Student(String name)
     {
         // Error handle name
         this.name = name;
-        this.courses = new HashMap<String, float[]>();
     }
 
     public Student(long id)
     {
         // Error handle id
         this.id = id;
-        this.courses = new HashMap<String, float[]>();
     }
 
     public Student(Student original)
     {
         this.name = new String(original.name);
         this.id = original.id;
-        this.courses = new HashMap<String, float[]>();
-        original.courses.forEach((String key, float[] values) -> {
-            float[] toAdd = new float[5];
-            for (int i = 0; i < toAdd.length; i++)
-            {
-                toAdd[i] = values[i];
-            }
-            this.courses.put(new String(key), toAdd);
+        original.courses.forEach((String key, Float value) -> {
+            this.courses.put(new String(key), value.floatValue());
         });
-    }
-
-    public Student()
-    {
-        this.courses = new HashMap<String, float[]>();
     }
 
     public String getName()
@@ -84,8 +70,6 @@ class Student
         // Add exception in the if statement below
         // Add exception in the else statement in the loop below
 
-        float[] addMarks = new float[5];
-
         float total = 0;
 
         if (marks.length != 4)
@@ -107,8 +91,6 @@ class Student
                 {
                     total += mark * 0.4;
                 }
-
-                addMarks[i] = mark;
             }
             else
             {
@@ -116,21 +98,19 @@ class Student
             }
         }
 
-        addMarks[4] = total;
-
-        courses.put(courseCode, addMarks);
+        courses.put(courseCode, total);
     }
 
     public String[] formattedCourses()
     {
         String[] results = new String[courses.size()];
 
-        courses.forEach((String courseCode, float[] marks) -> {
+        courses.forEach((String courseCode, Float marks) -> {
             String temp = "";
             temp += Long.toString(this.id) + ", ";
             temp += this.name + ", ";
             temp += courseCode + ", ";
-            temp += String.format("%.1f", marks[4]);
+            temp += String.format("%.1f", marks);
             int index = 0;
             for (int i = 0; i < results.length; i++)
             {
