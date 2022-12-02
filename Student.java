@@ -40,6 +40,11 @@ class Student
             this.courses.put(new String(key), value.floatValue());
         });
     }
+    
+    public Student()
+    {
+        return;
+    }
 
     public String getName()
     {
