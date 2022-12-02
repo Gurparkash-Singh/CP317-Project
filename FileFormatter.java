@@ -5,18 +5,16 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class App {
+public class FileFormatter {
 
     // Finish readCourseFile
     // Finish readNameFile
-    // Figure out if name and id are printed without course - NO
-    // Throw an error instead
+    // Finish printOutputFile
     // Finish main method
-    // Discuss why we need private methods and a constructor
 
     private HashMap<Long, Student> students;
 
-    public App()
+    public FileFormatter()
     {
         this.students = new HashMap<Long, Student>();
     }
@@ -89,7 +87,16 @@ public class App {
                 // Throw Exception
             }
             id = Long.parseLong(names[0].trim());
+            if (!this.students.containsKey(id))
+            {
+                // Throw Exception
+            }
+
             student = this.students.get(id);
+            if (student.getName() != null)
+            {
+                // Throw Exception
+            }
             student.setName(names[1].trim());
         }
     }
@@ -97,6 +104,11 @@ public class App {
     private void printOutputFile(PrintStream output) 
     {
         this.students.forEach((Long key, Student value) -> {
+            if (value.getName() == null)
+            {
+                // Throw Exception
+            }
+            
             String[] courses = value.formattedCourses();
             for (String course : courses)
             {
@@ -125,7 +137,7 @@ public class App {
                 courseFileScanner = new Scanner(courseFile);
                 nameFileScanner = new Scanner(nameFile);
                 outputFilePrinter = new PrintStream(outputFile);
-                App main = new App();
+                FileFormatter main = new FileFormatter();
                 main.run(
                     courseFileScanner, 
                     nameFileScanner, 
