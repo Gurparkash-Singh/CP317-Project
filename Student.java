@@ -1,30 +1,25 @@
 import java.util.HashMap;
 
-
 class Student implements Comparable<Student>
 {
-    // Finish Constructors
-    // Finish set name 
-    // Finish set id
-    // Finish addCourse
     // formattedCourses returns number rounded down
 
     private String name;
     private long id;
     private HashMap<String, Float> courses = new HashMap<String, Float>();
 
-    public Student(String name, long id)
+    public Student(String name, long id) throws Exception
     {
         this.setName(name);
         this.setId(id);
     }
 
-    public Student(String name)
+    public Student(String name) throws Exception
     {
         this.setName(name);
     }
 
-    public Student(long id)
+    public Student(long id) throws Exception
     {
         this.setId(id);
     }
@@ -48,11 +43,11 @@ class Student implements Comparable<Student>
         return this.name;
     }
 
-    public void setName(String name)
+    public void setName(String name) throws Exception
     {
         if (name.length() > 20)
         {
-            // Throw Exception
+            throw new Exception("Name length exceeds 20 chars");
         }
         this.name = name;
     }
@@ -62,11 +57,11 @@ class Student implements Comparable<Student>
         return this.id;
     }
 
-    public void setId(long id)
+    public void setId(long id) throws Exception
     {
         if (id >= 1000000000)
         {
-            // Throw Exception
+            throw new Exception("Id length exceeds 9 digtis");
         }
         this.id = id;
     }
@@ -76,29 +71,27 @@ class Student implements Comparable<Student>
         return this.courses.containsKey(courseCode);
     }
 
-    public void addCourse(String courseCode, float[] marks)
+    public void addCourse(String courseCode, float[] marks) throws Exception
     {
-
-        // Throw Exception if course code is not right
-        // Throw Exception if course code already exists for this student
-        // Add exception in the if statement below
-        // Add exception in the else statement in the loop below
-
         if (!courseCode.matches("^[A-Za-z]{2}[0-9]{3}$"))
         {
-            // Throw Exception
+            throw new Exception("Invalid course code");
         }
 
         if (this.courses.containsKey(courseCode))
         {
-            // Throw Exception
+            throw new Exception("Course already exists");
         }
 
         float total = 0;
 
         if (marks.length != 4)
         {
-            // Throw exception
+            throw new Exception(
+                String.format(
+                    "Expected 4 marks received %d", 
+                    marks.length
+            ));
         }
 
         for (int i = 0; i < marks.length; i++)
@@ -118,7 +111,7 @@ class Student implements Comparable<Student>
             }
             else
             {
-                // Throw Exception
+                throw new Exception("Marks should be between 0 and 100");
             }
         }
 
@@ -152,7 +145,6 @@ class Student implements Comparable<Student>
 
     public int compareTo(Student other)
     {
-
         return Long.compare(this.id, other.id);
     }
 }

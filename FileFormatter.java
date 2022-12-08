@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class FileFormatter {
-
-    // Finish readCourseFile
-    // Finish readNameFile
     // Finish printOutputFile
     // Finish main method
 
@@ -19,18 +16,55 @@ public class FileFormatter {
         this.students = new HashMap<Long, Student>();
     }
 
-    public void run(Scanner courseFile, Scanner nameFile, PrintStream output)
+    public void run(File courseFile, File nameFile, File outputFile)
     {
-        this.readCourseFile(courseFile);
-        this.readNameFile(nameFile);
-        this.printOutputFile(output);
+        Scanner courseFileScanner = null;
+        Scanner nameFileScanner = null;
+        PrintStream outputFilePrinter = null;
+
+        try
+        {
+            courseFileScanner = new Scanner(courseFile);
+            nameFileScanner = new Scanner(nameFile);
+            outputFilePrinter = new PrintStream(outputFile);
+        }
+        catch(FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+
+        try
+        {
+            this.readCourseFile(courseFileScanner, courseFile.getName());
+            this.readNameFile(nameFileScanner, nameFile.getName());;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        for (Student value : this.students.values())
+        {
+            try {
+                if (value.getName() == null)
+                {
+                    String message = String.format(
+                        "Student with id %d is not present in NameFile",
+                        value.getId()
+                    );
+                    throw new Exception(message);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+
+        this.printOutputFile(outputFilePrinter);
     }
 
-    private void readCourseFile(Scanner courseFile)
+    private void readCourseFile(Scanner courseFile, String fileName) throws FileParsingException
     {
-        // Exception in if statement in while loop
-        // Try catch id conversion in while loop
-        // Try catch grade conversions
 
         String line;
         String[] courses;
@@ -39,15 +73,40 @@ public class FileFormatter {
         float[] marks;
         marks = new float[4];
 
+        int lineNumber = 1;
         while (courseFile.hasNextLine())
         {
             line = courseFile.nextLine();
             courses = line.split(",");
-            if (courses.length != 6)
+            if (courses.length > 6)
             {
-                // Throw Exception
+                throw new FileParsingException(
+                    "Extra Fields Provided", 
+                    fileName, 
+                    lineNumber
+                );
             }
-            id = Long.parseLong(courses[0].trim());
+
+            if (courses.length < 6)
+            {
+                throw new FileParsingException(
+                    "Missing fields", 
+                    fileName, 
+                    lineNumber
+                );
+            }
+
+            try{
+                id = Long.parseLong(courses[0].trim());
+            }
+            catch(Exception e)
+            {
+                throw new FileParsingException(
+                    "Id must be a number", 
+                    fileName, 
+                    lineNumber
+                );
+            }
             for (int i = 0; i < marks.length; i++)
             {
                 marks[i] = Float.parseFloat(courses[i + 2].trim());
@@ -55,100 +114,119 @@ public class FileFormatter {
             if (this.students.containsKey(id))
             {
                 student = this.students.get(id);
-                student.addCourse(courses[1].trim(), marks);
+                try
+                {
+                    student.addCourse(courses[1].trim(), marks);
+                }
+                catch(Exception e)
+                {
+                    throw new FileParsingException(
+                        e.getMessage(),
+                        fileName,
+                        lineNumber
+                    );
+                }
             }
             else
             {
-                student = new Student(id);
-                student.addCourse(courses[1].trim(), marks);
+                try {
+                    student = new Student(id);
+                    student.addCourse(courses[1].trim(), marks);
+                } catch (Exception e) {
+                    throw new FileParsingException(
+                        e.getMessage(),
+                        fileName,
+                        lineNumber
+                    );
+                }
             }
             this.students.put(id, student);
+            lineNumber++;
         }
     }
 
-    private void readNameFile(Scanner file)
+    private void readNameFile(Scanner file, String fileName) throws FileParsingException
     {
-        // Exception in if statement in while loop
-        // Try Catch id conversion
-        // Throw Exception if name already associated with id
-        // Add check to see if name already exists
-
         String line;
         String[] names;
         long id;
         Student student;
 
+        int lineNumber = 1;
         while (file.hasNextLine())
         {
             line = file.nextLine();
             names = line.split(", ");
-            if (names.length != 2)
+            if (names.length > 2)
             {
-                // Throw Exception
+                throw new FileParsingException(
+                    "Extra Fields provided", 
+                    fileName, 
+                    lineNumber
+                );
             }
-            id = Long.parseLong(names[0].trim());
+
+            if (names.length < 2)
+            {
+                throw new FileParsingException(
+                    "Missing Fields", 
+                    fileName, 
+                    lineNumber
+                );
+            }
+
+            try{
+                id = Long.parseLong(names[0].trim());
+            }
+            catch(Exception e)
+            {
+                throw new FileParsingException(
+                    "Id must be a number", 
+                    fileName, 
+                    lineNumber
+                );
+            }
+
             if (!this.students.containsKey(id))
             {
-                // Throw Exception
+                throw new FileParsingException(
+                    "Student not present in course file", 
+                    fileName, 
+                    lineNumber
+                );
             }
 
             student = this.students.get(id);
             if (student.getName() != null)
             {
-                // Throw Exception
+                throw new FileParsingException(
+                    "Student with same id exists", 
+                    fileName, 
+                    lineNumber
+                );
             }
-            student.setName(names[1].trim());
+
+            try {
+                student.setName(names[1].trim());
+            } catch (Exception e) {
+                throw new FileParsingException(
+                    e.getMessage(),
+                    fileName,
+                    lineNumber
+                );
+            }
+            lineNumber++;
         }
     }
 
     private void printOutputFile(PrintStream output) 
     {
         this.students.forEach((Long key, Student value) -> {
-            if (value.getName() == null)
-            {
-                // Throw Exception
-            }
-            
             String[] courses = value.formattedCourses();
             for (String course : courses)
             {
                 output.format(course + "\n");
             }
         });
-    }
-
-    public static void main(String[] args) {
-        // For testing purposes only
-        {
-            File courseFile = new File("CourseFile.txt");
-            File nameFile = new File("NameFile.txt");
-            File outputFile = new File("OutputFile.txt");
-            Scanner courseFileScanner;
-            Scanner nameFileScanner;
-            PrintStream outputFilePrinter;
-            try {
-                outputFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try
-            {
-                courseFileScanner = new Scanner(courseFile);
-                nameFileScanner = new Scanner(nameFile);
-                outputFilePrinter = new PrintStream(outputFile);
-                FileFormatter main = new FileFormatter();
-                main.run(
-                    courseFileScanner, 
-                    nameFileScanner, 
-                    outputFilePrinter
-                );
-                System.out.println("Finished!");
-            }
-            catch (FileNotFoundException e)
-            {
-                e.printStackTrace();
-            }
-        }
     }
 }
