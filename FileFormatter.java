@@ -109,7 +109,15 @@ public class FileFormatter {
             }
             for (int i = 0; i < marks.length; i++)
             {
-                marks[i] = Float.parseFloat(courses[i + 2].trim());
+                try {
+                    marks[i] = Float.parseFloat(courses[i + 2].trim());
+                } catch (Exception e) {
+                    throw new FileParsingException(
+                        e.getMessage(), 
+                    fileName, 
+                    lineNumber
+                );
+                }
             }
             if (this.students.containsKey(id))
             {
