@@ -40,6 +40,7 @@ public class FileFormatter {
         catch(Exception e)
         {
             e.printStackTrace();
+            System.exit(-1);
         }
 
         for (Student value : this.students.values())
@@ -181,6 +182,15 @@ public class FileFormatter {
             {
                 throw new FileParsingException(
                     "Id must be a number", 
+                    fileName, 
+                    lineNumber
+                );
+            }
+
+            if (id >= 1000000000)
+            {
+                throw new FileParsingException(
+                    "Id length exceeds 9 digtis", 
                     fileName, 
                     lineNumber
                 );
