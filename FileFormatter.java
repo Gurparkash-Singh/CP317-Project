@@ -114,9 +114,9 @@ public class FileFormatter {
                 } catch (Exception e) {
                     throw new FileParsingException(
                         e.getMessage(), 
-                    fileName, 
-                    lineNumber
-                );
+                        fileName, 
+                        lineNumber
+                    );
                 }
             }
             if (this.students.containsKey(id))
